@@ -8,11 +8,13 @@ import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+@ControllerAdvice
 @Component
 public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -38,6 +40,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             @Nullable WebDataBinderFactory binderFactory
     ) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+
         // JwtFilter 에서 set 한 userId, email, userRole 값을 가져옴
         Long userId = (Long) request.getAttribute("userId");
         String email = (String) request.getAttribute("email");
