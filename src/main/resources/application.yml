@@ -16,3 +16,10 @@ spring:
 jwt:
   secret:
     key: Na3SJRCgKSMBV0VUVdoNqu0oJDZ5mUDa8z3jQ4Oujoq
+
+logging:
+  level:
+    root: info
+    org.springframework: info
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
