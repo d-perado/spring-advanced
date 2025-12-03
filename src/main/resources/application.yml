@@ -4,13 +4,14 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
+        format_sql: true   # 보기 좋게 정렬
     defer-datasource-initialization: true
 
 jwt:
