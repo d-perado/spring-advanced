@@ -10,6 +10,7 @@ import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
+import org.example.expert.domain.user.dto.UserDTO;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class CommentService {
         return new CommentSaveResponse(
                 savedComment.getId(),
                 savedComment.getContents(),
-                new UserResponse(user.getId(), user.getEmail())
+                new UserDTO(user.getId(), user.getEmail())
         );
     }
 
@@ -56,7 +57,7 @@ public class CommentService {
             CommentResponse dto = new CommentResponse(
                     comment.getId(),
                     comment.getContents(),
-                    new UserResponse(comment.getUser().getId(),comment.getUser().getEmail())
+                    new UserDTO(comment.getUser().getId(),comment.getUser().getEmail())
             );
             dtoList.add(dto);
         }
