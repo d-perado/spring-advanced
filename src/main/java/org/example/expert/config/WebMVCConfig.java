@@ -11,7 +11,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebConfig implements WebMvcConfigurer {
+public class WebMVCConfig implements WebMvcConfigurer {
 
     private final AuthUserArgumentResolver authUserArgumentResolver;
     private final AdminAccessLoggingInterceptor adminAccessLoggingInterceptor;
