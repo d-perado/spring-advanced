@@ -52,11 +52,11 @@ public class CommentService {
 
         List<CommentResponse> dtoList = new ArrayList<>();
         for (Comment comment : commentList) {
-            User user = comment.getUser();
+
             CommentResponse dto = new CommentResponse(
                     comment.getId(),
                     comment.getContents(),
-                    new UserResponse(user.getId(), user.getEmail())
+                    new UserResponse(comment.getUser().getId(),comment.getUser().getEmail())
             );
             dtoList.add(dto);
         }
