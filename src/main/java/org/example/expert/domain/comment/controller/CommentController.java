@@ -25,7 +25,7 @@ public class CommentController {
             @PathVariable long todoId,
             @Valid @RequestBody CommentSaveRequest commentSaveRequest
     ) {
-        return ResponseEntity.ok(commentService.saveComment(authUser, todoId, commentSaveRequest));
+        return ResponseEntity.ok(commentService.saveComment(authUser, todoId, commentSaveRequest));//상태코드 변경가능
     }
 
     @GetMapping("/todos/{todoId}/comments")

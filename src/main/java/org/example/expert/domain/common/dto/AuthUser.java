@@ -15,4 +15,5 @@ public class AuthUser {
         this.email = email;
         this.userRole = userRole;
     }
+
 }

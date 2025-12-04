@@ -1,12 +1,12 @@
 package org.example.expert.domain.comment.service;
 
 import org.example.expert.domain.comment.dto.request.CommentSaveRequest;
+import org.example.expert.domain.comment.dto.response.CommentResponse;
 import org.example.expert.domain.comment.dto.response.CommentSaveResponse;
 import org.example.expert.domain.comment.entity.Comment;
 import org.example.expert.domain.comment.repository.CommentRepository;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
-import org.example.expert.domain.common.exception.ServerException;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.entity.User;
@@ -17,8 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -41,7 +44,7 @@ class CommentServiceTest {
         CommentSaveRequest request = new CommentSaveRequest("contents");
         AuthUser authUser = new AuthUser(1L, "email", UserRole.USER);
 
-        given(todoRepository.findById(anyLong())).willReturn(Optional.empty());
+        given(todoRepository.findById(todoId)).willReturn(Optional.empty());
 
         // when
         InvalidRequestException exception = assertThrows(InvalidRequestException.class, () -> {
@@ -59,7 +62,7 @@ class CommentServiceTest {
         CommentSaveRequest request = new CommentSaveRequest("contents");
         AuthUser authUser = new AuthUser(1L, "email", UserRole.USER);
         User user = User.fromAuthUser(authUser);
-        Todo todo = new Todo("title", "title", "contents", user);
+        Todo todo = new Todo("title", "contents", "weather", user);
         Comment comment = new Comment(request.getContents(), user, todo);
 
         given(todoRepository.findById(anyLong())).willReturn(Optional.of(todo));
@@ -71,4 +74,35 @@ class CommentServiceTest {
         // then
         assertNotNull(result);
     }
+
+    @Test
+    public void todo의commentList를_조회한다() {
+        // given
+        long todoId = 1;
+        AuthUser authUser = new AuthUser(1L, "email", UserRole.USER);
+        User user = User.fromAuthUser(authUser);
+        Todo todo = new Todo("title", "contents", "contents", user);
+
+        List<Comment> commentList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            commentList.add(new Comment(String.valueOf(i), user, todo));
+        }
+
+        given(commentRepository.findByTodoIdWithUser(todoId))
+                .willReturn(commentList);
+
+        // when
+        List<CommentResponse> result = commentService.getComments(todoId);
+
+        // then
+        assertThat(result).hasSize(10);
+
+        assertThat(result).allSatisfy(x -> {
+            assertThat(x.getUser().getId()).isEqualTo(1L);
+            assertThat(x.getUser().getEmail()).isEqualTo("email");
+            assertThat(Integer.parseInt(x.getContents())).isBetween(0, 9);
+        });
+    }
+
 }
