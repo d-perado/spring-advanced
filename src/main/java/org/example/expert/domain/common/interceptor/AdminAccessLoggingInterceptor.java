@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.time.LocalDateTime;
+
 
 @Slf4j
 @Component
@@ -16,7 +18,7 @@ public class AdminAccessLoggingInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
-        log.info("요청 url: {} || 요청 시각: {}", request.getRequestURI(), System.currentTimeMillis());
+        log.info("요청 url: {} || 요청 시각: {}", request.getRequestURI(), LocalDateTime.now());
 
         return true;
 
