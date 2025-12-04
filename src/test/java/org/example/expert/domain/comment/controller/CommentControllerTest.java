@@ -48,7 +48,7 @@ class CommentControllerTest {
     }
 
     @Test
-    void 댓글저장성공() throws Exception {
+    void 댓글저장_성공() throws Exception {
         // given
         long todoId = 1L;
         CommentSaveRequest request = new CommentSaveRequest("contents");
@@ -78,7 +78,7 @@ class CommentControllerTest {
     }
 
     @Test
-    void 댓글조회성공() throws Exception {
+    void 댓글조회_성공() throws Exception {
         // given
         long todoId = 1L;
 

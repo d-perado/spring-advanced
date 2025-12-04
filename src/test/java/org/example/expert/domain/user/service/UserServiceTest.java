@@ -78,7 +78,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void 비밀번호_변경_실패_변경비밀번호와_같음() {
+    void 비밀번호_변경_실패_변경비밀번호와기존비밀번호같음() {
         // given
         long userId = 1L;
         UserChangePasswordRequest request =

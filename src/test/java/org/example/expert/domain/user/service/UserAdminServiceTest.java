@@ -1,6 +1,5 @@
 package org.example.expert.domain.user.service;
 
-import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.user.dto.request.UserRoleChangeRequest;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;

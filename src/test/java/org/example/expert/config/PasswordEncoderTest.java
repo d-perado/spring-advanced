@@ -9,7 +9,7 @@ class PasswordEncoderTest {
     private final PasswordEncoder passwordEncoder = new PasswordEncoder();
 
     @Test
-    void matches_메서드가_정상적으로_동작한다() {
+    void matches_메서드_실행() {
         // given
         String rawPassword = "testPassword";
         String encodedPassword = passwordEncoder.encode(rawPassword);
