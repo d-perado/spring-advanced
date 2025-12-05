@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.time.LocalDateTime;
 
@@ -29,15 +30,15 @@ public class AdminLoggingAspect {
     @Around("logAdmin()")
     public Object loggingAdminAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                .getRequest();
+        HttpServletRequest request =
+                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
-        Object[] args = joinPoint.getArgs();
+        ContentCachingRequestWrapper wrapper = (ContentCachingRequestWrapper) request;
+        String body = new String(wrapper.getContentAsByteArray(), request.getCharacterEncoding());
 
-        String requestBody = objectMapper.writeValueAsString(args);
-        logger.info("요청URL : {}", httpServletRequest.getRequestURI());
+        logger.info("요청URL : {} {}", request.getMethod(), request.getRequestURI());
         logger.info("API 시작시간 : {}", LocalDateTime.now());
-        logger.info("RequestBody : {}", requestBody);
+        logger.info("RequestBody : {}", body);
         Object result = joinPoint.proceed();
         String resultBody = objectMapper.writeValueAsString(result);
         logger.info("API 종료시간 : {}", LocalDateTime.now());

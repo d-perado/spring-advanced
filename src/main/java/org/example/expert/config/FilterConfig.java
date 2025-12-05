@@ -21,4 +21,15 @@ public class FilterConfig {
 
         return registrationBean;
     }
+
+    @Bean
+    public FilterRegistrationBean<CachingRequestFilter> cachingRequestFilter() {
+        FilterRegistrationBean<CachingRequestFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CachingRequestFilter());
+        registrationBean.addUrlPatterns("/*");
+
+        return registrationBean;
+    }
+
+
 }
