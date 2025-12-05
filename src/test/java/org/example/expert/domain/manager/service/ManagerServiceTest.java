@@ -27,8 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ManagerServiceTest {
@@ -204,6 +203,30 @@ class ManagerServiceTest {
                 .hasMessage("해당 일정을 만든 유저가 유효하지 않습니다.");
     }
 
+    @Test
+    void 본인을_담당자로_등록하면_예외발생() {
+        // given
+        AuthUser authUser = new AuthUser(1L, "email@email.com", UserRole.USER);
+        long todoId = 10L;
+
+        User user = User.fromAuthUser(authUser);
+        Todo todo = new Todo("title", "contents", "weather", user);
+
+        ManagerSaveRequest request = new ManagerSaveRequest(1L);
+
+        given(todoRepository.findById(todoId)).willReturn(Optional.of(todo));
+
+        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+
+        //when
+        InvalidRequestException exception = assertThrows(
+                InvalidRequestException.class,
+                () -> managerService.saveManager(authUser, todoId, request)
+        );
+        //then
+        assertEquals("일정 작성자는 본인을 담당자로 등록할 수 없습니다.", exception.getMessage());
+    }
+
 
     @Test
     void 매니저삭제_실패_일정담당자가아님() {
@@ -233,4 +256,5 @@ class ManagerServiceTest {
                 .isInstanceOf(InvalidRequestException.class)
                 .hasMessage("해당 일정에 등록된 담당자가 아닙니다.");
     }
+
 }
