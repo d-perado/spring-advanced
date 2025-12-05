@@ -27,7 +27,7 @@ public class CommentRepositoryTest {
 
     @Test
     void findByTodoIdWithUser_테스트() {
-        // given - 테스트 데이터 준비
+        //given
         User user = new User("asdf@naver.com", "password", UserRole.USER);
         User savedUser = userRepository.save(user);
 
@@ -39,10 +39,10 @@ public class CommentRepositoryTest {
 
         long todoId = savedTodo.getId();
 
-        // when - 테스트 수행
+        //when
         List<Comment> result = commentRepository.findByTodoIdWithUser(todoId);
 
-        // then - 검증
+        //then
         Assertions.assertThat(result)
                 .hasSize(1)
                 .allSatisfy(c -> {
